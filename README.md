@@ -1,6 +1,22 @@
 # Scan Sheet vDemo
 
-Repository statico per provare **solo l'aspetto e il flusso dell'interfaccia** di Scan Sheet.
+Repository statico per provare l'interfaccia di Scan Sheet senza backend, Google, OAuth o credenziali.
+
+## Comportamento attuale
+
+- La fotocamera prova a partire subito all'apertura.
+- La camera **non legge in automatico**.
+- La lettura è attiva **solo mentre si tiene premuto `Registra`**.
+- Durante la pressione compare una linea orizzontale del colore del tema.
+- Rilasciando il pulsante la lettura si interrompe immediatamente.
+- Long press: disabilitati selezione testo, callout e drag sul pulsante.
+- Nessuna vibrazione alla pressione.
+- Alla lettura riuscita: breve vibrazione, camera spenta e sostituita da `Apri fotocamera`.
+- Se il browser supporta `BarcodeDetector`, prova a leggere davvero.
+- Se non lo supporta, vDemo simula una lettura dopo 1,4 secondi di pressione continua.
+- `Conferma registrazione` aggiunge soltanto una riga demo nella pagina.
+
+## Nessuna configurazione
 
 Non contiene:
 - Google Apps Script
@@ -9,34 +25,9 @@ Non contiene:
 - ACCESS_KEY
 - Client ID / Client Secret
 - API key
-- sincronizzazione esterna
 
-Contiene:
-- layout principale
-- fotocamera reale del dispositivo
-- pulsanti Camera on/off e Torcia
-- pulsante "Leggi ora" con lettura simulata
-- quantità + / -
-- registro demo locale nella pagina
-- temi
-- confronto rapido tra camera 4:3, 4:5 e 3:4
-- confronto `cover` / `contain`
+## GitHub Pages
 
-## Pubblicazione GitHub Pages
-
-Crea un repository, per esempio:
-
-`scansheet-vDemo`
-
-Carica questi file nella root e poi:
+Carica i file nella root del repository `scansheet-vDemo`, poi:
 
 Settings → Pages → Deploy from a branch → `main` → `/(root)`
-
-L'URL sarà del tipo:
-
-`https://TUO-USERNAME.github.io/scansheet-vDemo/`
-
-## Nota
-
-La camera richiede HTTPS: GitHub Pages va bene.
-La funzione "Leggi ora" in vDemo è intenzionalmente simulata: serve a testare UI e flusso senza librerie barcode o backend.
