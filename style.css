@@ -82,6 +82,12 @@ h1{font-size:25px}h2{font-size:22px}
   -webkit-touch-callout:none;
   touch-action:none;
   -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
+  outline:none;
+}
+.hold-button:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:3px;
 }
 .hold-button.is-held{
   background:var(--accent-hover);

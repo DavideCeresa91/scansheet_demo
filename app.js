@@ -132,8 +132,7 @@ async function detectionLoop(token) {
 function startReading(event) {
   if (!cameraActive || reading) return;
 
-  event.preventDefault();
-  try { event.currentTarget.setPointerCapture(event.pointerId); } catch {}
+  event?.preventDefault?.();
 
   reading = true;
   holdToken++;
@@ -222,17 +221,75 @@ function addDemoRecord(barcode, quantity) {
   $('pending-count').textContent = demoCount + ' demo';
 }
 
-/* Impedisce menu contestuale / selezione / drag sul tasto a pressione lunga. */
+/*
+  Trigger di lettura volutamente NON nativo:
+  è un <div role="button"> e non un <button>, così Android/Chrome
+  ha meno motivi per applicare feedback aptico da long-press.
+
+  Su touch usiamo touchstart/touchend con preventDefault().
+  Su mouse/stilo usiamo Pointer Events ma ignoriamo pointerType="touch"
+  per evitare un doppio avvio.
+*/
 const holdButton = $('scan-hold');
+
 holdButton.addEventListener('contextmenu', e => e.preventDefault());
 holdButton.addEventListener('selectstart', e => e.preventDefault());
 holdButton.addEventListener('dragstart', e => e.preventDefault());
-holdButton.addEventListener('pointerdown', startReading, {passive:false});
-holdButton.addEventListener('pointerup', stopReading, {passive:false});
-holdButton.addEventListener('pointercancel', stopReading, {passive:false});
-holdButton.addEventListener('lostpointercapture', stopReading, {passive:false});
 
-/* Blocca anche il click sintetico dopo il long press. */
+holdButton.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (!reading) startReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('touchend', e => {
+  e.preventDefault();
+  stopReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('touchcancel', e => {
+  e.preventDefault();
+  stopReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'touch') return;
+  e.preventDefault();
+  try { holdButton.setPointerCapture(e.pointerId); } catch {}
+  startReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('pointerup', e => {
+  if (e.pointerType === 'touch') return;
+  e.preventDefault();
+  stopReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('pointercancel', e => {
+  if (e.pointerType === 'touch') return;
+  e.preventDefault();
+  stopReading(e);
+}, {passive:false});
+
+holdButton.addEventListener('lostpointercapture', e => {
+  if (e.pointerType === 'touch') return;
+  stopReading(e);
+});
+
+/* Accessibilità da tastiera: tieni premuto Spazio/Invio. */
+holdButton.addEventListener('keydown', e => {
+  if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat && !reading) {
+    e.preventDefault();
+    startReading(e);
+  }
+});
+holdButton.addEventListener('keyup', e => {
+  if (e.code === 'Space' || e.code === 'Enter') {
+    e.preventDefault();
+    stopReading(e);
+  }
+});
+
+/* Evita il click sintetico dopo un'interazione touch. */
 holdButton.addEventListener('click', e => e.preventDefault());
 
 $('camera-closed').addEventListener('click', startCamera);

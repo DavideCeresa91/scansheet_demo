@@ -31,3 +31,7 @@ Non contiene:
 Carica i file nella root del repository `scansheet-vDemo`, poi:
 
 Settings → Pages → Deploy from a branch → `main` → `/(root)`
+
+
+### Nota long-press
+Il trigger `Registra` non usa più un `<button>` nativo: è un controllo neutro con gestione touch dedicata e `preventDefault()`, per ridurre il feedback aptico del long-press di Android/Chrome. La vibrazione programmata resta solo al riconoscimento del codice.
