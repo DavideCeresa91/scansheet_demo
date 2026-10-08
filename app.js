@@ -202,7 +202,7 @@ function stopCamera({collapsed=true} = {}) {
   cameraActive = false;
   torchOn = false;
   $('torch').hidden = true;
-  $('torch').textContent = 'Torcia';
+  $('torch-label').textContent = 'Torcia';
 
   if (collapsed) {
     $('camera-live').hidden = true;
@@ -221,12 +221,12 @@ async function setTorch(next, {silent=false} = {}) {
   try {
     await track.applyConstraints({advanced:[{torch:Boolean(next)}]});
     torchOn = Boolean(next);
-    $('torch').textContent = torchOn ? 'Spegni torcia' : 'Torcia';
+    $('torch-label').textContent = torchOn ? 'Spegni' : 'Torcia';
     $('torch').setAttribute('aria-pressed', String(torchOn));
     return true;
   } catch {
     torchOn = false;
-    $('torch').textContent = 'Torcia';
+    $('torch-label').textContent = 'Torcia';
     $('torch').setAttribute('aria-pressed', 'false');
     if (!silent) $('camera-message').textContent = 'Torcia non disponibile su questo dispositivo.';
     return false;
@@ -406,7 +406,7 @@ function exportHistory() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'scan-sheet-demo-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.download = 'barcode-bipper-demo-' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
   URL.revokeObjectURL(url);
 }

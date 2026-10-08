@@ -556,3 +556,166 @@ body.modal-open{
   color:var(--muted);
   text-align:center;
 }
+
+
+/* ===== Barcode Bipper branding ===== */
+.brand-bipper{
+  gap:11px;
+  align-items:center;
+}
+.brand-scanner{
+  width:46px;
+  height:46px;
+  flex:none;
+  display:block;
+  color:var(--accent);
+}
+.brand-scanner-svg{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.brand-scanner-svg rect{
+  fill:var(--accent);
+  stroke:var(--accent);
+  stroke-width:0;
+}
+.brand-scanner-svg .scanner-corners{
+  fill:none;
+  stroke:white;
+  stroke-width:2.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.brand-scanner-svg .scanner-bars{
+  fill:none;
+  stroke:white;
+  stroke-width:2.25;
+  stroke-linecap:butt;
+}
+.brand-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  line-height:1;
+}
+.brand-copy>strong{
+  font-size:20px;
+  font-weight:780;
+  letter-spacing:-.45px;
+  white-space:nowrap;
+}
+.brand-signature,
+.drawer-signature,
+.drawer-foot-brand{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:var(--accent);
+  width:max-content;
+}
+.brand-cherry{
+  width:17px;
+  height:19px;
+  overflow:visible;
+  flex:none;
+}
+.brand-cherry path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:34;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+.crs-wordmark{
+  display:inline-flex;
+  align-items:baseline;
+  color:currentColor;
+  font-weight:700;
+  white-space:nowrap;
+}
+.crs-c{
+  font-size:13px;
+  line-height:1;
+}
+.crs-rs{
+  font-size:9px;
+  line-height:1;
+  letter-spacing:.4px;
+}
+.crs-design{
+  font-size:10px;
+  font-weight:520;
+  letter-spacing:.15px;
+}
+
+/* Drawer uses the same theme-reactive scanner identity. */
+.drawer-scanner-logo{
+  padding:7px;
+  color:var(--accent);
+}
+.drawer-scanner-logo .brand-scanner-svg{
+  width:54px;
+  height:54px;
+}
+.drawer-signature{
+  margin-top:5px;
+  color:#fff;
+}
+.drawer-signature .brand-cherry{
+  width:18px;
+  height:20px;
+}
+.drawer-signature .crs-wordmark{
+  color:#fff;
+}
+.drawer-foot-brand .brand-cherry{
+  width:15px;
+  height:17px;
+}
+
+/* Bigger, clearer torch control. */
+.camera-tools{
+  min-height:48px;
+}
+.torch-button{
+  min-height:42px;
+  padding:8px 12px;
+  border:1px solid var(--accent-border);
+  border-radius:11px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-weight:680;
+  font-size:13px;
+}
+.torch-button:hover{
+  background:color-mix(in srgb,var(--accent-soft) 80%,var(--accent) 7%);
+}
+.torch-button svg{
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* Slightly less text-heavy main UI. */
+.camera-message:empty{display:none}
+.activity-panel .history-actions{margin-top:18px}
+
+@media(max-width:420px){
+  .brand-scanner{width:42px;height:42px}
+  .brand-copy>strong{font-size:18px}
+  .brand-cherry{width:16px;height:18px}
+  .crs-c{font-size:12px}
+  .crs-rs{font-size:8px}
+  .crs-design{font-size:9px}
+}

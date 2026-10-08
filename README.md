@@ -75,3 +75,12 @@ Questa build aggiunge:
 - I pannelli Impostazioni/Configurazione ora scorrono internamente; durante l'apertura la pagina sottostante viene bloccata.
 - Nuovo toggle **Accendi flash durante la lettura**: se la torcia è disponibile, si accende solo mentre il decoder è attivo e si spegne quando la lettura termina.
 - Nuovo pulsante **Torna ai default**: ripristina le preferenze dell'app ma mantiene il nome operatore.
+
+
+## Branding / pulizia UI
+
+- Nome app cambiato in **Barcode Bipper**.
+- Logo nell'header: solo barcode + inquadratura, colorato automaticamente col tema.
+- Sotto al nome: logo ciliegia a solo profilo + wordmark **CRS design**.
+- Pulsante torcia più grande con icona.
+- Rimossi alcuni testi demo/ridondanti dalla schermata principale per alleggerire l'interfaccia.
