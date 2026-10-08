@@ -13,14 +13,56 @@
   <header class="app-header">
     <a class="brand" href="./">
       <img src="./icons/icon.png" alt="" width="40" height="40">
-      <span>Scan Sheet<small>vDemo</small></span>
+      <span>Scan Sheet<small>Registro scansioni · vDemo</small></span>
     </a>
 
     <div class="header-actions">
-      <span class="demo-pill">DEMO</span>
-      <button id="settings-open" class="quiet" type="button">Impostazioni</button>
+      <button id="menu-open" class="menu-button" type="button" aria-label="Apri menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+      </button>
     </div>
   </header>
+
+  <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="app-drawer" class="app-drawer" aria-hidden="true" aria-label="Menu Scan Sheet">
+    <div class="drawer-hero">
+      <div class="drawer-hero-top">
+        <div class="drawer-logo-wrap"><img src="./icons/icon.png" alt="" width="54" height="54"></div>
+        <button id="menu-close" class="drawer-close" type="button" aria-label="Chiudi menu">×</button>
+      </div>
+      <div class="drawer-branding">
+        <strong>Scan Sheet</strong>
+        <span>Registro scansioni</span>
+      </div>
+    </div>
+
+    <nav class="drawer-nav">
+      <span class="drawer-section-label">APP</span>
+
+      <button id="drawer-settings" class="drawer-item" type="button">
+        <span class="drawer-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM19 12a7 7 0 0 0-.09-1.1l2-1.55-2-3.46-2.46 1A7.2 7.2 0 0 0 14.5 5.8L14.15 3h-4.3L9.5 5.8a7.2 7.2 0 0 0-1.95 1.09l-2.46-1-2 3.46 2 1.55A7 7 0 0 0 5 12c0 .37.03.74.09 1.1l-2 1.55 2 3.46 2.46-1A7.2 7.2 0 0 0 9.5 18.2l.35 2.8h4.3l.35-2.8a7.2 7.2 0 0 0 1.95-1.09l2.46 1 2-3.46-2-1.55c.06-.36.09-.73.09-1.1Z"/></svg>
+        </span>
+        <span class="drawer-copy"><strong>Impostazioni</strong><small>Operatore, tema e fotocamera</small></span>
+        <span class="drawer-chevron" aria-hidden="true">›</span>
+      </button>
+
+      <div class="drawer-divider"></div>
+
+      <button id="drawer-config" class="drawer-item" type="button">
+        <span class="drawer-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9M7 17l-2 2M17 7l2-2M8.2 15.8l-2-2a3.8 3.8 0 0 1 5.4-5.4l1 1M15.8 8.2l2 2a3.8 3.8 0 0 1-5.4 5.4l-1-1"/></svg>
+        </span>
+        <span class="drawer-copy"><strong>Configurazione</strong><small>Backend, accesso e Google Sheet</small></span>
+        <span class="drawer-chevron" aria-hidden="true">›</span>
+      </button>
+    </nav>
+
+    <div class="drawer-foot">
+      <span>Ceresa <strong>design</strong></span>
+      <span class="drawer-version">vDemo</span>
+    </div>
+  </aside>
 
   <main class="layout">
     <section class="work-panel">
@@ -117,6 +159,17 @@
 
       <button class="secondary full" type="button" disabled>Sincronizzazione disattivata in vDemo</button>
 
+      <div class="history-actions" aria-label="Azioni cronologia">
+        <button id="export-history" class="quiet history-action" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 19h14"/></svg>
+          <span>Esporta CSV</span>
+        </button>
+        <button id="clear-history" class="quiet history-action danger-soft" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg>
+          <span>Svuota cronologia</span>
+        </button>
+      </div>
+
       <ol id="records" class="records"></ol>
 
       <div id="empty-state" class="empty-state">
@@ -135,36 +188,158 @@
   <dialog id="settings-dialog">
     <form method="dialog">
       <div class="dialog-heading">
-        <h2>Impostazioni demo</h2>
+        <div>
+          <span class="eyebrow">PREFERENZE</span>
+          <h2>Impostazioni</h2>
+        </div>
         <button class="quiet" value="cancel">Chiudi</button>
       </div>
 
-      <label for="operator">Nome operatore</label>
-      <input id="operator" value="Davide Ceresa">
+      <p class="dialog-intro">
+        Personalizza l'app su questo dispositivo. Le modifiche vengono applicate subito.
+      </p>
 
-      <label for="theme">Tema</label>
-      <select id="theme">
-        <option value="burgundy" selected>Bordeaux</option>
-        <option value="green">Verde bandiera</option>
-        <option value="blue">Blu</option>
-        <option value="petrol">Verde petrolio</option>
-        <option value="purple">Viola</option>
-        <option value="orange">Arancio</option>
-        <option value="graphite">Grafite</option>
-      </select>
+      <section class="settings-section">
+        <h3>Profilo</h3>
+        <label for="operator">Nome operatore</label>
+        <input id="operator" value="Davide Ceresa">
+      </section>
 
-      <label for="camera-ratio">Formato camera</label>
-      <select id="camera-ratio">
-        <option value="wide">4:3 · basso</option>
-        <option value="tall" selected>4:5 · alto</option>
-        <option value="portrait">3:4 · più verticale</option>
-      </select>
+      <section class="settings-section">
+        <h3>Aspetto</h3>
+        <label for="theme">Tema</label>
+        <select id="theme">
+          <option value="burgundy" selected>Bordeaux</option>
+          <option value="green">Verde bandiera</option>
+          <option value="blue">Blu</option>
+          <option value="petrol">Verde petrolio</option>
+          <option value="purple">Viola</option>
+          <option value="orange">Arancio</option>
+          <option value="graphite">Grafite</option>
+          <option value="custom">Personalizzato…</option>
+        </select>
 
-      <label for="camera-fit">Riempimento camera</label>
-      <select id="camera-fit">
-        <option value="cover" selected>Cover · senza bande nere</option>
-        <option value="contain">Contain · immagine intera</option>
-      </select>
+        <div id="custom-theme-controls" class="custom-theme-controls" hidden>
+          <label for="custom-color">Colore personalizzato</label>
+          <div class="color-editor">
+            <input id="custom-color" class="color-input" type="color" value="#923753" aria-label="Selettore colore">
+            <input id="custom-hex" class="hex-input" type="text" value="#923753" maxlength="7"
+                   inputmode="text" spellcheck="false" aria-label="Colore esadecimale">
+          </div>
+          <span id="custom-color-error" class="field-note error-text" hidden>Inserisci un colore esadecimale valido, es. #923753.</span>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>Lettura</h3>
+
+        <label for="scan-mode">Modalità di scansione</label>
+        <select id="scan-mode">
+          <option value="hold" selected>Bippaggio · tieni premuto per leggere</option>
+          <option value="continuous">Scan2Sheets · premi e cerca fino al codice</option>
+        </select>
+        <p id="scan-mode-note" class="field-note">
+          La fotocamera resta pronta, ma il lettore è attivo solo mentre tieni premuto Registra.
+        </p>
+
+        <label class="toggle-row" for="vibration-enabled">
+          <span>
+            <strong>Vibrazione al riconoscimento</strong>
+            <small>Nessuna vibrazione durante la pressione.</small>
+          </span>
+          <input id="vibration-enabled" type="checkbox" checked>
+        </label>
+      </section>
+
+      <section class="settings-section">
+        <h3>Fotocamera</h3>
+
+        <label for="camera-ratio">Formato</label>
+        <select id="camera-ratio">
+          <option value="wide">4:3 · basso</option>
+          <option value="tall" selected>4:5 · alto</option>
+          <option value="portrait">3:4 · più verticale</option>
+        </select>
+
+        <label for="camera-fit">Visualizzazione</label>
+        <select id="camera-fit">
+          <option value="cover" selected>Cover · senza bande nere</option>
+          <option value="contain">Contain · immagine intera</option>
+        </select>
+      </section>
+
+      <p class="settings-auto-note">Le preferenze vengono salvate automaticamente.</p>
+    </form>
+  </dialog>
+
+  <dialog id="config-dialog">
+    <form method="dialog">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">COLLEGAMENTO AL REGISTRO</span>
+          <h2>Configurazione</h2>
+        </div>
+        <button class="quiet" value="cancel">Chiudi</button>
+      </div>
+
+      <p class="dialog-intro">
+        Collega Scan Sheet al backend e scegli il foglio su cui registrare. In vDemo i controlli sono solo simulati.
+      </p>
+
+      <section class="settings-section config-fields">
+        <h3>Backend</h3>
+
+        <label for="demo-backend">URL backend</label>
+        <input id="demo-backend" type="text"
+               placeholder="https://script.google.com/.../exec"
+               value="https://script.google.com/.../exec">
+
+        <label for="demo-key">Chiave di accesso</label>
+        <input id="demo-key" type="password" value="demo-access-key">
+      </section>
+
+      <section class="settings-section">
+        <h3>Google Sheet</h3>
+
+        <div class="google-file-box">
+          <div>
+            <span class="google-file-label">File selezionato</span>
+            <strong>Registro laboratorio</strong>
+            <span class="google-file-tab">Foglio: uscite</span>
+          </div>
+          <button id="demo-choose-sheet" class="secondary compact" type="button">Cambia</button>
+        </div>
+      </section>
+
+      <div id="demo-connection-state" class="config-status">
+        <span class="status-dot"></span>
+        <span>Connessione non ancora verificata</span>
+      </div>
+
+      <div class="dialog-actions config-actions">
+        <button id="demo-test-connection" class="secondary" type="button">Prova connessione</button>
+        <button id="demo-save-config" class="primary" type="button">Salva configurazione</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="clear-history-dialog" class="confirm-dialog">
+    <form method="dialog">
+      <div class="confirm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg>
+      </div>
+      <h2>Svuotare la cronologia locale?</h2>
+      <p>
+        Verranno rimossi da questo dispositivo i record già inviati.
+        <strong>Google Sheet non verrà modificato.</strong>
+      </p>
+      <p class="confirm-note">
+        Nella versione reale eventuali registrazioni ancora da inviare vengono sempre mantenute.
+      </p>
+      <div class="dialog-actions">
+        <button class="secondary" value="cancel">Annulla</button>
+        <button id="confirm-clear-history" class="danger" value="default">Svuota cronologia</button>
+      </div>
     </form>
   </dialog>
 
