@@ -67,3 +67,11 @@ Questa build aggiunge:
 - **Tema personalizzato** con color picker e valore esadecimale.
 - **Vibrazione al riconoscimento** disattivabile.
 - Le preferenze demo vengono salvate in `localStorage`.
+
+
+## Correzioni e nuove preferenze
+
+- La quantità predefinita resta **sempre 1** e non è configurabile.
+- I pannelli Impostazioni/Configurazione ora scorrono internamente; durante l'apertura la pagina sottostante viene bloccata.
+- Nuovo toggle **Accendi flash durante la lettura**: se la torcia è disponibile, si accende solo mentre il decoder è attivo e si spegne quando la lettura termina.
+- Nuovo pulsante **Torna ai default**: ripristina le preferenze dell'app ma mantiene il nome operatore.

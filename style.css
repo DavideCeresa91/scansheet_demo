@@ -526,3 +526,33 @@ body.scan-mode-continuous .camera-panel.is-reading .scan-guide::after{
   .history-actions{justify-content:stretch}
   .history-action{flex:1;justify-content:center}
 }
+
+
+/* ===== Dialog scrolling fix =====
+   The dialog itself owns the vertical scroll, while the page behind stays fixed. */
+dialog{
+  max-height:calc(100dvh - 28px);
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+dialog form{
+  min-height:min-content;
+  touch-action:pan-y;
+}
+body.modal-open{
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+.reset-defaults{
+  margin-top:16px;
+}
+.reset-note{
+  margin:7px 2px 0;
+  font-size:11px;
+  line-height:1.45;
+  color:var(--muted);
+  text-align:center;
+}

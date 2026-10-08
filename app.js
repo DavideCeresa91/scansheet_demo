@@ -20,7 +20,8 @@ const defaultSettings = {
   cameraRatio: 'tall',
   cameraFit: 'cover',
   scanMode: 'hold',
-  vibrationEnabled: true
+  vibrationEnabled: true,
+  autoFlashEnabled: false
 };
 
 function loadSettings() {
@@ -126,6 +127,7 @@ function renderSettings() {
   $('camera-fit').value = settings.cameraFit;
   $('scan-mode').value = settings.scanMode;
   $('vibration-enabled').checked = settings.vibrationEnabled;
+  $('auto-flash-enabled').checked = settings.autoFlashEnabled;
 
   setTheme(settings.theme);
   applyCameraOptions();
@@ -208,17 +210,31 @@ function stopCamera({collapsed=true} = {}) {
   }
 }
 
-async function toggleTorch() {
+async function setTorch(next, {silent=false} = {}) {
   const track = stream?.getVideoTracks?.()[0];
-  if (!track) return;
+  if (!track || !cameraActive) return false;
+
+  let available = false;
+  try { available = Boolean(track.getCapabilities?.().torch); } catch {}
+  if (!available) return false;
+
   try {
-    torchOn = !torchOn;
-    await track.applyConstraints({advanced:[{torch:torchOn}]});
+    await track.applyConstraints({advanced:[{torch:Boolean(next)}]});
+    torchOn = Boolean(next);
     $('torch').textContent = torchOn ? 'Spegni torcia' : 'Torcia';
+    $('torch').setAttribute('aria-pressed', String(torchOn));
+    return true;
   } catch {
     torchOn = false;
-    $('camera-message').textContent = 'Torcia non disponibile su questo dispositivo.';
+    $('torch').textContent = 'Torcia';
+    $('torch').setAttribute('aria-pressed', 'false');
+    if (!silent) $('camera-message').textContent = 'Torcia non disponibile su questo dispositivo.';
+    return false;
   }
+}
+
+async function toggleTorch() {
+  await setTorch(!torchOn);
 }
 
 async function detectionLoop(token) {
@@ -265,6 +281,10 @@ async function startReading(event) {
   $('scan-hold').classList.add('is-held');
   $('camera-panel').classList.add('is-reading');
 
+  if (settings.autoFlashEnabled) {
+    setTorch(true, {silent:true});
+  }
+
   if (scanMode === 'hold') {
     $('hold-hint').textContent = 'Lettura attiva · rilascia per fermare';
     $('camera-message').textContent = 'Lettura attiva soltanto mentre tieni premuto.';
@@ -288,6 +308,10 @@ function stopReading(event) {
 
   $('scan-hold')?.classList.remove('is-held');
   $('camera-panel')?.classList.remove('is-reading');
+
+  if (settings.autoFlashEnabled && torchOn) {
+    setTorch(false, {silent:true});
+  }
 
   if (scanMode === 'continuous') {
     $('scan-hold').querySelector('span').textContent = 'Scansiona';
@@ -588,6 +612,34 @@ $('vibration-enabled').addEventListener('change', () => {
   saveSettings();
 });
 
+$('auto-flash-enabled').addEventListener('change', () => {
+  settings.autoFlashEnabled = $('auto-flash-enabled').checked;
+  if (!settings.autoFlashEnabled && torchOn) setTorch(false, {silent:true});
+  saveSettings();
+});
+
+$('reset-defaults').addEventListener('click', async () => {
+  const operator = settings.operator;
+
+  stopReading();
+  settings = {
+    ...defaultSettings,
+    operator
+  };
+  saveSettings();
+  renderSettings();
+
+  if (cameraActive) {
+    if (torchOn) await setTorch(false, {silent:true});
+  } else if (settings.scanMode === 'hold') {
+    await startCamera();
+  }
+
+  $('feedback').hidden = false;
+  $('feedback').className = 'feedback';
+  $('feedback').textContent = 'Preferenze ripristinate ai valori predefiniti.';
+});
+
 /* Quantity + registration. */
 $('minus').addEventListener('click', () => {
   $('quantity').value = Math.max(0, Number($('quantity').value || 0) - 1);
@@ -635,6 +687,21 @@ document.addEventListener('visibilitychange', () => {
     if (cameraActive) stopCamera({collapsed:true});
   }
 });
+
+
+/* Keep touch/wheel scrolling inside open dialogs instead of the page below. */
+function syncModalLock() {
+  document.body.classList.toggle('modal-open', Boolean(document.querySelector('dialog[open]')));
+}
+
+for (const dialog of document.querySelectorAll('dialog')) {
+  new MutationObserver(syncModalLock).observe(dialog, {
+    attributes:true,
+    attributeFilter:['open']
+  });
+  dialog.addEventListener('close', syncModalLock);
+  dialog.addEventListener('cancel', () => setTimeout(syncModalLock, 0));
+}
 
 const previewPanel = new URLSearchParams(location.search).get('preview');
 
