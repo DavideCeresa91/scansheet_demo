@@ -84,3 +84,13 @@ Questa build aggiunge:
 - Sotto al nome: logo ciliegia a solo profilo + wordmark **CRS design**.
 - Pulsante torcia più grande con icona.
 - Rimossi alcuni testi demo/ridondanti dalla schermata principale per alleggerire l'interfaccia.
+
+
+## Ultimi ritocchi UI
+
+- Il marchio ciliegia usa **esattamente il disegno fornito dall'utente** come maschera grafica: non è ridisegnato; assume automaticamente il colore del tema.
+- `Registra` è diventato **Bippa**.
+- `Conferma registrazione` è diventato **Conferma bippaggio**.
+- Sotto `Codice a barre` compare la nota discreta `Puoi anche inserirlo a mano.`.
+- Aumentato lo spazio fra controllo quantità e pulsante di conferma.
+- Le firme grafiche sono uniformate a **CRS design**, con `RS` maiuscole più piccole della `C`.

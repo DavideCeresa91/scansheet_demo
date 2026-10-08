@@ -719,3 +719,51 @@ body.modal-open{
   .crs-rs{font-size:8px}
   .crs-design{font-size:9px}
 }
+
+
+/* ===== Refinement: exact CRS cherry supplied by the user ===== */
+.brand-cherry{
+  display:inline-block;
+  width:18px;
+  height:21px;
+  flex:none;
+  background:currentColor;
+  -webkit-mask:url("./icons/crs-cherry-mask.png") center / contain no-repeat;
+  mask:url("./icons/crs-cherry-mask.png") center / contain no-repeat;
+}
+.brand-cherry path{display:none!important}
+
+.drawer-signature .brand-cherry{
+  width:20px;
+  height:23px;
+}
+.drawer-foot-brand .brand-cherry{
+  width:16px;
+  height:19px;
+}
+
+/* Manual barcode entry hint */
+.field-helper{
+  display:block;
+  margin:-4px 0 8px;
+  font-size:11px;
+  line-height:1.35;
+  color:var(--muted);
+}
+
+/* Give the quantity row and confirmation button some breathing room. */
+.confirm-bip{
+  margin-top:24px;
+}
+
+/* Footer branding uses the same CRS wordmark treatment. */
+.footer-crs{
+  display:inline-flex;
+  align-items:center;
+  color:var(--accent);
+}
+
+/* Slightly quieter spacing around the barcode field. */
+#record-form > label[for="barcode"]{
+  margin-bottom:7px;
+}

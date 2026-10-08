@@ -105,10 +105,10 @@ function renderScanMode() {
   document.body.classList.toggle('scan-mode-continuous', scanMode === 'continuous');
 
   if (scanMode === 'hold') {
-    $('scan-hold').querySelector('span').textContent = 'Registra';
+    $('scan-hold').querySelector('span').textContent = 'Bippa';
     $('hold-hint').textContent = 'Tieni premuto per leggere';
     $('scan-mode-note').textContent =
-      'La fotocamera resta pronta, ma il lettore è attivo solo mentre tieni premuto Registra.';
+      'La fotocamera resta pronta; il lettore è attivo solo mentre tieni premuto Bippa.';
   } else {
     $('scan-hold').querySelector('span').textContent = reading ? 'Annulla lettura' : 'Scansiona';
     $('hold-hint').textContent = reading ? 'Ricerca del codice in corso…' : 'Premi una volta per iniziare';
@@ -178,7 +178,7 @@ async function startCamera() {
 
     $('camera-message').textContent =
       scanMode === 'hold'
-        ? 'Fotocamera pronta. Tieni premuto Registra solo quando vuoi leggere.'
+        ? 'Fotocamera pronta. Tieni premuto Bippa quando vuoi leggere.'
         : 'Fotocamera pronta. Premi Scansiona per cercare il codice.';
     return true;
   } catch (error) {
@@ -323,7 +323,7 @@ function stopReading(event) {
   if (cameraActive) {
     $('camera-message').textContent =
       scanMode === 'hold'
-        ? 'Fotocamera pronta. Tieni premuto Registra solo quando vuoi leggere.'
+        ? 'Fotocamera pronta. Tieni premuto Bippa quando vuoi leggere.'
         : 'Fotocamera pronta. Premi Scansiona per cercare il codice.';
   }
 }
@@ -640,7 +640,7 @@ $('reset-defaults').addEventListener('click', async () => {
   $('feedback').textContent = 'Preferenze ripristinate ai valori predefiniti.';
 });
 
-/* Quantity + registration. */
+/* Quantity + bippaggio. */
 $('minus').addEventListener('click', () => {
   $('quantity').value = Math.max(0, Number($('quantity').value || 0) - 1);
 });
@@ -663,7 +663,7 @@ $('record-form').addEventListener('submit', event => {
   addDemoRecord(barcode, quantity);
   $('feedback').hidden = false;
   $('feedback').className = 'feedback';
-  $('feedback').textContent = 'Registrazione demo aggiunta localmente.';
+  $('feedback').textContent = 'Bippaggio demo aggiunto localmente.';
   $('barcode').value = '';
   $('quantity').value = '1';
 });
